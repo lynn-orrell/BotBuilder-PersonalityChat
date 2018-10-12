@@ -32,6 +32,7 @@
 //
 
 using System.Linq;
+using System.Net.Http;
 using Microsoft.Bot.Builder.PersonalityChat.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Core.Tests
             string expectedResponse = "test response";
             PersonalityChatOptions personalityChatOptions = new PersonalityChatOptions();
 
-            PersonalityChatService personalityChatService = new PersonalityChatService(personalityChatOptions);
+            PersonalityChatService personalityChatService = new PersonalityChatService(personalityChatOptions, new HttpClient());
 
             PersonalityChatResults personalityChatResults = await personalityChatService.QueryServiceAsync(userQuery);
 

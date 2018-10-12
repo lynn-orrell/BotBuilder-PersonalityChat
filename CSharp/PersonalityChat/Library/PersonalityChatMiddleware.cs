@@ -38,21 +38,23 @@ namespace Microsoft.Bot.Builder.PersonalityChat
     using System.Net.Http;
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder.PersonalityChat.Core;
+    using Microsoft.Bot.Builder;
     using Microsoft.Bot.Schema;
+    using System.Threading;
 
     public class PersonalityChatMiddleware : IMiddleware
     {
         private readonly PersonalityChatService personalityChatService;
         private readonly PersonalityChatMiddlewareOptions personalityChatMiddlewareOptions;
 
-        public PersonalityChatMiddleware(PersonalityChatMiddlewareOptions personalityChatMiddlewareOptions)
+        public PersonalityChatMiddleware(PersonalityChatMiddlewareOptions personalityChatMiddlewareOptions, HttpClient httpClient)
         {
             this.personalityChatMiddlewareOptions = personalityChatMiddlewareOptions ?? throw new ArgumentNullException(nameof(personalityChatMiddlewareOptions));
 
-            this.personalityChatService = new PersonalityChatService(personalityChatMiddlewareOptions);
+            this.personalityChatService = new PersonalityChatService(personalityChatMiddlewareOptions, httpClient);
         }
 
-        public async Task OnTurn(ITurnContext context, MiddlewareSet.NextDelegate next)
+        public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken)
         {
             if (context.Activity.Type == ActivityTypes.Message)
             {
@@ -75,7 +77,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat
                 return;
             }
 
-            await next().ConfigureAwait(false);
+            await next(cancellationToken).ConfigureAwait(false);
         }
 
         public virtual string GetResponse(PersonalityChatResults personalityChatResults)
@@ -100,11 +102,11 @@ namespace Microsoft.Bot.Builder.PersonalityChat
             return response;
         }
 
-        public virtual async Task PostPersonalityChatResponseToUser(ITurnContext context, MiddlewareSet.NextDelegate next, string personalityChatResponse)
+        public virtual async Task PostPersonalityChatResponseToUser(ITurnContext context, NextDelegate next, string personalityChatResponse)
         {
             if (!string.IsNullOrEmpty(personalityChatResponse))
             {
-                await context.SendActivity(personalityChatResponse).ConfigureAwait(false);
+                await context.SendActivityAsync(personalityChatResponse).ConfigureAwait(false);
             }
         }
     }

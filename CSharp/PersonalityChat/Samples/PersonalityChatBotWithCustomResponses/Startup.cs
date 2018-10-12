@@ -43,6 +43,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System.Net.Http;
 
     public class Startup
     {
@@ -67,7 +68,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses
 
                 var middleware = options.Middleware;
 
-                var scenarioResponses = File.ReadAllLines(@"Resources\CustomResponses.txt");
+                var scenarioResponses = File.ReadAllLines(@"./Resources/CustomResponses.txt");
                 var scenarioResponsesMapping = new Dictionary<string, List<string>>();
 
                 foreach (var scenarioResponse in scenarioResponses)
@@ -83,9 +84,9 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses
                     scenarioResponsesMapping[scenario].Add(response);
                 }
 
-                var personalityChatOptions = new PersonalityChatMiddlewareOptions(scenarioResponsesMapping: scenarioResponsesMapping);
+                var personalityChatOptions = new PersonalityChatMiddlewareOptions(scenarioResponsesMapping: scenarioResponsesMapping, endActivityRoutingOnResponse: false);
 
-                middleware.Add(new PersonalityChatMiddleware(personalityChatOptions));
+                middleware.Add(new PersonalityChatMiddleware(personalityChatOptions, new HttpClient()));
             });
         }
 

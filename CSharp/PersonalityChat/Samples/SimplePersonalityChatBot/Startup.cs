@@ -33,6 +33,7 @@
 
 namespace Microsoft.Bot.Builder.PersonalityChat.Sample.Basic
 {
+    using System.Net.Http;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Bot.Builder.BotFramework;
@@ -65,9 +66,9 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Sample.Basic
                 
                 var middleware = options.Middleware;
 
-                var personalityChatOptions = new PersonalityChatMiddlewareOptions();
+                var personalityChatOptions = new PersonalityChatMiddlewareOptions(endActivityRoutingOnResponse: false);
 
-                middleware.Add(new PersonalityChatMiddleware(personalityChatOptions));
+                middleware.Add(new PersonalityChatMiddleware(personalityChatOptions, new HttpClient()));
             });
         }
 

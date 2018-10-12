@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{F8F3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{E7FCF87B-A34F-4738-B1D0-C34352388C0F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.PersonalityChat", "Library\Microsoft.Bot.Builder.PersonalityChat.csproj", "{CBFE0D35-D6C2-4B25-A498-CFC474A2C3A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.PersonalityChat", "Library\Microsoft.Bot.Builder.PersonalityChat.csproj", "{CBFE0D35-D6C2-4B25-A498-CFC474A2C3A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.PersonalityChat.Sample.Basic", "Samples\SimplePersonalityChatBot\Microsoft.Bot.Builder.PersonalityChat.Sample.Basic.csproj", "{5F840490-32EE-46BD-9932-DD7F99F720D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.PersonalityChat.Sample.Basic", "Samples\SimplePersonalityChatBot\Microsoft.Bot.Builder.PersonalityChat.Sample.Basic.csproj", "{5F840490-32EE-46BD-9932-DD7F99F720D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.PersonalityChat.Tests", "Test\Microsoft.Bot.Builder.PersonalityChat.Tests.csproj", "{65D0DA07-2F36-4FBA-8607-574B42D66C06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.PersonalityChat.Tests", "Test\Microsoft.Bot.Builder.PersonalityChat.Tests.csproj", "{65D0DA07-2F36-4FBA-8607-574B42D66C06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses", "Samples\PersonalityChatBotWithCustomResponses\Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses.csproj", "{E0AD3A90-DA19-41B3-AECA-CEA97D1F3C7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses", "Samples\PersonalityChatBotWithCustomResponses\Microsoft.Bot.Builder.PersonalityChat.Sample.CustomResponses.csproj", "{E0AD3A90-DA19-41B3-AECA-CEA97D1F3C7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

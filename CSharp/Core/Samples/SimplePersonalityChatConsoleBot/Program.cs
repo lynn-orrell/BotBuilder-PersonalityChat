@@ -35,6 +35,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Core.Sample.Basic
 {
     using System;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder.PersonalityChat.Core;
 
@@ -43,7 +44,7 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Core.Sample.Basic
         static void Main(string[] args)
         {
             PersonalityChatOptions personalityChatOptions = new PersonalityChatOptions(string.Empty, PersonalityChatPersona.Professional);
-            PersonalityChatService personalityChatService = new PersonalityChatService(personalityChatOptions);
+            PersonalityChatService personalityChatService = new PersonalityChatService(personalityChatOptions, new HttpClient());
 
             while (true)
             {

@@ -58,15 +58,18 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Core
         public const string UriBase = "https://smarttalk.azure-api.net/api/v1/botframework";
 
         private readonly PersonalityChatOptions personalityChatOptions;
+        private readonly HttpClient client;
 
         /// <summary>
         /// Build the query uri for the query text.
         /// </summary>
         /// <param name="personalityChatOptions">Construct the PersonalityChat Service using personalitychat information.</param>
+        /// <param name="httpClient">The HttpClient to use. Ideally, this should be registered as a Singleton via IoC.</param>
         /// <returns>PersonalityChat service instance</returns>
-        public PersonalityChatService(PersonalityChatOptions personalityChatOptions)
+        public PersonalityChatService(PersonalityChatOptions personalityChatOptions, HttpClient httpClient)
         {
             this.personalityChatOptions = personalityChatOptions;
+            this.client = httpClient;
         }
 
         /// <summary>
@@ -79,38 +82,35 @@ namespace Microsoft.Bot.Builder.PersonalityChat.Core
 
             string responseJson = string.Empty;
 
-            using (HttpClient client = new HttpClient())
+            PersonalityChatRequest personalityChatRequest = new PersonalityChatRequest(query, this.personalityChatOptions.BotPersona);
+
+            string requestJson = JsonConvert.SerializeObject(personalityChatRequest);
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uri);
+            request.Headers.Add(SubscriptionKeyHeader, this.personalityChatOptions.SubscriptionKey);
+            request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = null;
+
+            try
             {
-                client.DefaultRequestHeaders.Add(SubscriptionKeyHeader, this.personalityChatOptions.SubscriptionKey);
-                client.Timeout = TimeSpan.FromMilliseconds(5000);
-                PersonalityChatRequest personalityChatRequest = new PersonalityChatRequest(query, this.personalityChatOptions.BotPersona);
+                response = await client.SendAsync(request);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Http call to personalityChat service timed out.");
+            }
 
-                string requestJson = JsonConvert.SerializeObject(personalityChatRequest);
-
-                StringContent requestBody = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = null;
-
-                try
-                {
-                    response = await client.PostAsync(uri, requestBody);
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Http call to personalityChat service timed out.");
-                }
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception("Http call to personalityChat service failed with status code: " + response.StatusCode);
-                }
-                else if (response == null || response.Content == null)
-                {
-                    throw new Exception("Http call to personalityChat service returned null.");
-                }
-                else
-                {
-                    responseJson = await response.Content.ReadAsStringAsync();
-                }
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Http call to personalityChat service failed with status code: " + response.StatusCode);
+            }
+            else if (response == null || response.Content == null)
+            {
+                throw new Exception("Http call to personalityChat service returned null.");
+            }
+            else
+            {
+                responseJson = await response.Content.ReadAsStringAsync();
             }
 
             try
